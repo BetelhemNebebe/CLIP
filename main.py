@@ -52,7 +52,7 @@ for file in file_list:
 
     image_features /= image_features.norm(dim=-1, keepdim=True)
     audio_embeddings /= (torch.tensor(audio_embeddings)).norm(dim=-1, keepdim=True)
-    similarity = (100.0 * image_features @ audio_embeddings.T).softmax(dim=-1)
+    similarity = (100.0 * image_features @ audio_embeddings.T).softmax(dim=-1) # softmax converts it to probability distribution
     values, indices = similarity[0].topk(1) #5
 
     #Append similarity values
@@ -62,6 +62,7 @@ for file in file_list:
 print("Embedding is complete!")
 
 print("Cosine similarities: ", cos_similarities)
+#concatenate the scores and compute average
 cos_similarities = torch.cat(cos_similarities, dim=0).cpu()
 print("After concatenation: ", cos_similarities)
 print("Average of cosine similarities: ", torch.mean(cos_similarities))
