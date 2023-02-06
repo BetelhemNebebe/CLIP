@@ -16,7 +16,7 @@ class Compute_metrics():
         tensor1 = F.normalize(tensor1, dim=1)
         tensor2 = F.normalize(tensor2, dim=1)
 
-        cos = nn.CosineSimilarity(dim=1, eps=1e-6)
+        cos = nn.CosineSimilarity()
         output = cos(tensor1, tensor2)
 
         return output
