@@ -50,10 +50,31 @@ class Load_data():
         print("Video frames are sucessfully extracted!")
         return mean_frame
 
+    def extract_frames(self, video_path):
+        """Takes a single video and returns the frames"""
+        video = cv2.VideoCapture(video_path) #video.get(cv2.CAP_PROP_FPS) => 25.0
+
+        success = True
+        frames_list = []
+        count = 0
+
+        while success:
+            success, frames = video.read()
+            if success and count < 125: #taking only 125 frames: 5 second clip * 25 fps
+                frames_list.append(frames)
+                count = count + 1
+
+            else:
+                break
+
+        print("Video frames are sucessfully extracted!")
+        return frames_list
+
 
     def extract_audio(self, video_path):
         """Takes the path to a single video and returns the extracted audio"""
         video = VideoFileClip(video_path)
-        audio = video.audio
+        video_clip = video.subclip(0, 5) #take only the first 5 seconds
+        audio = video_clip.audio #video_clip.audio.fps => 44100 Hz
         print("Audio is sucessfully extracted!")
         return audio
