@@ -45,7 +45,6 @@ def encode_video(frames):
     for frame in frames:
         frame_preprocessed = preprocess(Image.fromarray(frame, 'RGB')).to(device)  #.unsqueeze(0)
         frames_inputs.append(frame_preprocessed)
-    #frame = preprocess(Image.fromarray(frame, 'RGB')).unsqueeze(0).to(device)
     
     with torch.no_grad():
         #extract image features
@@ -82,10 +81,7 @@ for batch_files in batch(file_list, batch_size=5):
         print("Video and Audio is loaded!!!")
 
         #Embedd frames from a video and compute mean of the embeddings
-        #for i in range(0, len(frames), batch_size): #for frame in frames:
-        #    batch_frames = frames[i:i+batch_size]
-        frame_embedding = encode_video(frames) #frame
-        #frame_embed_torch = torch.cat(frame_embedding, dim=0)
+        frame_embedding = encode_video(frames)
         video_mean_embedding = torch.unsqueeze(torch.mean(frame_embedding, 0), 0) #torch.Size([1, 512])
             
         #Embedd audio
@@ -103,22 +99,14 @@ for batch_files in batch(file_list, batch_size=5):
     metric = Compute_metrics(image_embeddings, audio_embeddings)
     cos_similarity = metric.pair_cosine_similarity()
     logits = metric.logits()
+    similarity = metric.new_similarity()
     print("Cosine similarities: ", cos_similarity)
     print("Logits: ", logits)
+    print("Similarity: ", similarity)
 
-    '''
-    #Top similarity
-    Video_mean_embedding /= Video_mean_embedding.norm(dim=-1, keepdim=True)
-    audio_embeddings /= (torch.tensor(audio_embeddings)).norm(dim=-1, keepdim=True)
-    similarity = (100.0 * Video_mean_embedding @ audio_embeddings.T).softmax(dim=-1) # softmax converts it to probability distribution
-    values, indices = similarity[0].topk(1) #5
-    '''
-    
-    #concatenate the scores and compute average
-    #cos_similarities = torch.cat(cos_similarities, dim=0).cpu()
-    #print("After concatenation: ", cos_similarities)
-    #print("Average of cosine similarities: ", torch.mean(cos_similarities))
-    #print("Top similarity: ", top_similarity)
+
+
+
 
 '''
 _MODELS = {

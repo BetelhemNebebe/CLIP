@@ -35,8 +35,17 @@ class Compute_metrics():
         probs = logits_per_image.softmax(dim=-1).detach().cpu().numpy()
 
         #similarity = (100.0 * image_features @ audio_features.T).softmax(dim=-1)
+        logits_audio_image = logit_scale * audio_features @ image_features.T
+        confidence = logits_audio_image.softmax(dim=0)
 
-        return probs #logits_per_image, logits_per_audio
+        return confidence #probs #logits_per_image, logits_per_audio
+    
+    def new_similarity(self):
+            self.feature1 /= self.feature1.norm(dim=-1, keepdim=True)
+            self.feature2 /= self.feature2.norm(dim=-1, keepdim=True)
+            similarity = (100.0 * self.feature1 @ self.feature2.T).softmax(dim=-1)
+
+            return similarity
 
     def pair_cosine_similarity(self):
         similarity = cosine_similarity(self.feature1, self.feature2)
