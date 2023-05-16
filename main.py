@@ -18,7 +18,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 print("Device: ", device)
 
 #Load video files
-dir_path = "C:\\Masters\\semester_3\\Project_1\\data\\vggsound_example" #ERB3_Stimuli
+dir_path = "PATH\\TO\\THE\\VIDEO\\FOLDER"
 loading = Load_data(dir_path)
 file_list = loading.get_file_list()
 
