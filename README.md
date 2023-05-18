@@ -1,5 +1,9 @@
 # CLIP
 
+This work is based on:
+- [CLIP (Contrastive Language-Image Pre-Training)](https://github.com/openai/CLIP)
+- [Wav2CLIP](https://github.com/descriptinc/lyrebird-wav2clip/tree/master)
+
 ### 1. Set up environment
 
 **Creating the environment:**
