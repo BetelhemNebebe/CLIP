@@ -96,4 +96,3 @@ dependencies:
     - typing-extensions==4.4.0
     - urllib3==1.26.14
     - wav2clip==0.1.0
-prefix: C:\Users\betel\anaconda3\envs\clip_env
